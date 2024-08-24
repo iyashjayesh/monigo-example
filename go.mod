@@ -1,7 +1,5 @@
 module monigo-example
 
-replace github.com/iyashjayesh/monigo => ../monigo
-
 go 1.21.0
 
 require (
