@@ -13,10 +13,20 @@ func main() {
 	go monigo.ServeDashboard(":8080", "MoniGo-example-microService")
 
 	http.HandleFunc("/api", apiHandler)
+	http.HandleFunc("/api2", apiHandler2)
 	http.ListenAndServe(":8000", nil)
 }
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
+
+	monigo.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
+	monigo.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
+	monigo.RecordRequestDuration(time.Since(start))
+	w.Write([]byte("API response"))
+}
+
+func apiHandler2(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 
 	monigo.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
