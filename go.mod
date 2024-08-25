@@ -4,4 +4,4 @@ go 1.21.0
 
 require golang.org/x/exp v0.0.0-20240823005443-9b4947da3948
 
-require github.com/iyashjayesh/monigo v0.0.0-20240825105856-fd61aea7aed2
+require github.com/iyashjayesh/monigo v0.0.0-20240825110302-793b633e395c
