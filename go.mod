@@ -4,7 +4,7 @@ go 1.21.0
 
 require golang.org/x/exp v0.0.0-20240823005443-9b4947da3948
 
-require github.com/iyashjayesh/monigo v0.0.0-20240825132617-44fd708d2bb7
+require github.com/iyashjayesh/monigo v0.0.0-20240825152053-6ea6ad8dadda
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
