@@ -1,6 +1,4 @@
-github.com/iyashjayesh/monigo v0.0.0-20240825104603-8046efc7dc02 h1:DzjrbaNJFnDA9Ox6Xa8Stv8pCU98tvQfW+z4Lt47ad4=
-github.com/iyashjayesh/monigo v0.0.0-20240825104603-8046efc7dc02/go.mod h1:djgB8CLHGJOxTwug4B2hq2zLoWHf9mjVInpXIPbrI2U=
-github.com/iyashjayesh/monigo v0.0.0-20240825105357-5255ce2c8a99 h1:bAgRU0FaaIQXtDBaINUQAGrLu3PvojeYB27di6c/ZWk=
-github.com/iyashjayesh/monigo v0.0.0-20240825105357-5255ce2c8a99/go.mod h1:djgB8CLHGJOxTwug4B2hq2zLoWHf9mjVInpXIPbrI2U=
+github.com/iyashjayesh/monigo v0.0.0-20240825105856-fd61aea7aed2 h1:KNFuGYZjuU6ejracmakHHLlL1kLeVLC60H+gLeXnBNM=
+github.com/iyashjayesh/monigo v0.0.0-20240825105856-fd61aea7aed2/go.mod h1:djgB8CLHGJOxTwug4B2hq2zLoWHf9mjVInpXIPbrI2U=
 golang.org/x/exp v0.0.0-20240823005443-9b4947da3948 h1:kx6Ds3MlpiUHKj7syVnbp57++8WpuKPcR5yjLBjvLEA=
 golang.org/x/exp v0.0.0-20240823005443-9b4947da3948/go.mod h1:akd2r19cwCdwSwWeIdzYQGa/EZZyqcOdwWiwj5L5eKQ=
