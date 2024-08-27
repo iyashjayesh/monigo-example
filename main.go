@@ -6,14 +6,17 @@ import (
 	"time"
 
 	"github.com/iyashjayesh/monigo"
+	"github.com/iyashjayesh/monigo/core"
+	monigodb "github.com/iyashjayesh/monigo/monigoDb"
+	"github.com/iyashjayesh/monigo/utils"
 	"golang.org/x/exp/rand"
 )
 
 func main() {
 	// MonigoDb is a local database to store the metrics
-	monigo.PurgeMonigoDb()
+	monigodb.PurgeMonigoDb()
 	monigo.Start(8080, "Yash-MicroService")
-	monigo.SetDbSyncFrequency("5m")
+	monigodb.SetDbSyncFrequency("5m")
 
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api2", apiHandler2)
@@ -24,17 +27,17 @@ func main() {
 func apiHandler(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 
-	monigo.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
-	monigo.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
-	monigo.RecordRequestDuration(time.Since(start))
+	utils.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
+	utils.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
+	core.RecordRequestDuration(time.Since(start))
 	w.Write([]byte("API response"))
 }
 
 func apiHandler2(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
-	monigo.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
-	monigo.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
-	monigo.RecordRequestDuration(time.Since(start))
+	utils.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
+	utils.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
+	core.RecordRequestDuration(time.Since(start))
 	w.Write([]byte("API response"))
 }
 
