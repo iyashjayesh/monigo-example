@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -9,11 +10,14 @@ import (
 )
 
 func main() {
-
-	go monigo.ServeDashboard(":8080", "MoniGo-example-microService")
+	// MonigoDb is a local database to store the metrics
+	monigo.PurgeMonigoDb()
+	monigo.Start(8080, "Yash-MicroService")
+	monigo.SetDbSyncFrequency("5m")
 
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api2", apiHandler2)
+	log.Println("Server started at :8000")
 	http.ListenAndServe(":8000", nil)
 }
 
@@ -28,7 +32,6 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 
 func apiHandler2(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
-
 	monigo.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
 	monigo.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
 	monigo.RecordRequestDuration(time.Since(start))
