@@ -8,7 +8,7 @@ toolchain go1.22.6
 
 require golang.org/x/exp v0.0.0-20240823005443-9b4947da3948
 
-require github.com/iyashjayesh/monigo v0.0.0-20240827140736-a39fa9972d47
+require github.com/iyashjayesh/monigo v0.0.0-20240827151131-dda80a8497ff
 
 require (
 	github.com/go-ole/go-ole v1.3.0 // indirect
