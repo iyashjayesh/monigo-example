@@ -11,11 +11,11 @@ import (
 
 func main() {
 	// MonigoDb is a local database to store the metrics
-	monigo.NewInitializeStorage()
+	// monigo.NewInitializeStorage()
 
-	monigo.PurgeMonigoDb()
+	// monigo.PurgeMonigoDb()
 	monigo.Start(8080, "Yash-MicroService")
-	monigo.SetDbSyncFrequency("5m")
+	// monigo.SetDbSyncFrequency("5m")
 
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api2", apiHandler2)
