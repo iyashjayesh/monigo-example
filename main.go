@@ -16,8 +16,8 @@ func main() {
 		DashboardPort: 8080,
 	}
 
-	monigoInstance.PurgeMonigoStorage()
-	monigoInstance.SetDbSyncFrequency("1m")
+	// monigoInstance.PurgeMonigoStorage()
+	monigoInstance.SetDbSyncFrequency("5s")
 	monigoInstance.StartDashboard()
 
 	http.HandleFunc("/api", apiHandler)
