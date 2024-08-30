@@ -4,7 +4,7 @@ go 1.21.0
 
 require golang.org/x/exp v0.0.0-20240823005443-9b4947da3948
 
-require github.com/iyashjayesh/monigo v0.0.0-20240830050058-3caafee3137b
+require github.com/iyashjayesh/monigo v0.0.0-20240830081517-61e51bec3520
 
 require (
 	github.com/go-ole/go-ole v1.3.0 // indirect
