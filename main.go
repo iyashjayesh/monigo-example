@@ -17,7 +17,7 @@ func main() {
 	}
 
 	monigoInstance.PurgeMonigoStorage()
-	monigoInstance.SetDbSyncFrequency("5s")
+	monigoInstance.SetDbSyncFrequency("5m")
 	monigoInstance.StartDashboard()
 
 	http.HandleFunc("/api", apiHandler)
