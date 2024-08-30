@@ -16,7 +16,7 @@ func main() {
 		DashboardPort: 8080,
 	}
 
-	// monigoInstance.PurgeMonigoStorage()
+	monigoInstance.PurgeMonigoStorage()
 	monigoInstance.SetDbSyncFrequency("5s")
 	monigoInstance.StartDashboard()
 
