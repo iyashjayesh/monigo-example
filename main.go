@@ -1,28 +1,66 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"time"
 
 	"github.com/iyashjayesh/monigo"
+	"github.com/iyashjayesh/monigo/models"
 	"golang.org/x/exp/rand"
 )
 
 func main() {
 
 	monigoInstance := &monigo.Monigo{
-		ServiceName:   "Yash-MicroService",
-		DashboardPort: 8080,
+		ServiceName:        "data-api", // Compulsory
+		PurgeMonigoStorage: true,       // Default is false
+		DashboardPort:      8080,       // Default is 8080
+		DbSyncFrequency:    "1m",       // Default is 5 Minutes
+		RetentionPeriod:    "4d",       // Default is 14 days (2 weeks)
 	}
 
-	monigoInstance.PurgeMonigoStorage()
-	monigoInstance.SetDbSyncFrequency("1m")
-	monigoInstance.StartDashboard()
+	// 	### Weight Configuration
+
+	// In the health scoring system, weights determine the importance of each metric:
+
+	// - **Weight of `1.0`**: Indicates maximum importance. Metrics with this weight have the highest impact on the overall health score.
+	// - **Weights Less Than `1.0`**: Reflect decreasing levels of importance. Metrics with lower weights contribute less to the overall score.
+
+	// **Example**:
+	// - Set `MaxLoad.Weight` to `1.0` if CPU load is critical.
+	// - Set `MaxMemory.Weight` to `0.5` if memory usage is moderately important.
+	// - Set `MaxGoroutines.Weight` to `0.2` for less critical metrics.
+
+	// 1.0 is the maximum weight and 0.0 is the minimum weight.
+	// critical - 1.0
+	// moderate - 0.5
+	// less critical - 0.2
+
+	// to check overall health of the service
+	monigoInstance.SetServiceThresholds(&models.ServiceHealthThresholds{
+		MaxGoroutines: models.Thresholds{
+			Value:  100,
+			Weight: 1.0,
+		},
+		MaxCPULoad: models.Thresholds{
+			Value:  2,
+			Weight: 0.5,
+		},
+		MaxMemory: models.Thresholds{
+			Value:  80,
+			Weight: 0.2,
+		},
+	})
+
+	monigoInstance.Start()
+
+	// monigoInstance.DeleteMonigoStorage() // Delete monigo storage
+	// monigoInstance.SetDbSyncFrequency("1m")
+	// routinesStats := monigoInstance.PrintGoRoutinesStats() // Print go routines stats
+	// log.Println(routinesStats)
 
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api2", apiHandler2)
-	log.Println("Server started at :8000")
 	http.ListenAndServe(":8000", nil)
 }
 
