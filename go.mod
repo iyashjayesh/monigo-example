@@ -1,6 +1,8 @@
 module monigo-example
 
-go 1.22.7
+go 1.22.0
+
+toolchain go1.22.7
 
 require (
 	github.com/iyashjayesh/monigo v0.0.1
