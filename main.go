@@ -14,7 +14,7 @@ func main() {
 		ServiceName:             "data-api", // Compulsory
 		PurgeMonigoStorage:      true,       // Default is false
 		DashboardPort:           8080,       // Default is 8080
-		DataPointsSyncFrequency: "10s",      // Default is 5 Minutes
+		DataPointsSyncFrequency: "1m",       // Default is 5 Minutes
 		DataRetentionPeriod:     "4d",       // Default is 14 days (2 weeks)
 	}
 
