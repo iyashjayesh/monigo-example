@@ -2,80 +2,58 @@ package main
 
 import (
 	"log"
+	"math"
 	"net/http"
-	"time"
 
 	"github.com/iyashjayesh/monigo"
-	"golang.org/x/exp/rand"
 )
 
 func main() {
 
 	monigoInstance := &monigo.Monigo{
-		ServiceName:   "Yash-MicroService",
-		DashboardPort: 8080,
+		ServiceName:             "data-api", // Mandatory field
+		DashboardPort:           8080,       // Default is 8080
+		DataPointsSyncFrequency: "5s",       // Default is 5 Minutes
+		DataRetentionPeriod:     "4d",       // Default is 7 days. Supported values: "1h", "1d", "1w", "1m"
+		TimeZone:                "Local",    // Default is Local timezone. Supported values: "Local", "UTC", "Asia/Kolkata", "America/New_York" etc. (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+		// MaxCPUUsage:             90,         // Default is 95%
+		// MaxMemoryUsage:          90,         // Default is 95%
+		// MaxGoRoutines:           100,        // Default is 100
 	}
 
-	monigoInstance.PurgeMonigoStorage()
-	monigoInstance.SetDbSyncFrequency("1m")
-	monigoInstance.StartDashboard()
+	go monigoInstance.Start() // Starting monigo dashboard
+	log.Println("Monigo dashboard started at port 8080")
+
+	// routinesStats := monigoInstance.GetGoRoutinesStats() // Get go routines stats
+	// log.Println(routinesStats)
 
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api2", apiHandler2)
-	log.Println("Server started at :8000")
 	http.ListenAndServe(":8000", nil)
 }
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
-
-	monigo.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
-	monigo.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
-	monigo.RecordRequestDuration(time.Since(start))
-	w.Write([]byte("API response"))
+	monigo.TraceFunction(highMemoryUsage) // Trace function, when the function is called, it will be traced
+	w.Write([]byte("API1 response memexpensiveFunc"))
 }
 
 func apiHandler2(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
-	monigo.MeasureExecutionTime("MemExpensiveFunc", memexpensiveFunc)
-	monigo.MeasureExecutionTime("CpuExpensiveFunc", cpuexpensiveFunc)
-	monigo.RecordRequestDuration(time.Since(start))
-	w.Write([]byte("API response"))
+	monigo.TraceFunction(highCPUUsage) // Trace function, when the function is called, it will be traced
+	w.Write([]byte("API2 response cpuexpensiveFunc"))
 }
 
-//go:noinline
-func memexpensiveFunc() {
-	m := make([]int, 10_000_000)
-	for i := range m {
-		m[i] = rand.Intn(127)
-	}
-
-	memanotherExpensiveFunc()
-}
-
-//go:noinline
-func memanotherExpensiveFunc() {
-	m := make(map[int]float64, 1_000_000)
-
-	for key := range m {
-		m[key] = rand.Float64()
+func highMemoryUsage() {
+	// Simulate high memory usage by allocating a large slice
+	largeSlice := make([]float64, 1e8) // 100 million elements
+	for i := 0; i < len(largeSlice); i++ {
+		largeSlice[i] = float64(i)
 	}
 }
 
-//go:noinline
-func cpuexpensiveFunc() {
+func highCPUUsage() {
+	// Simulate high CPU usage by performing heavy computations
 	var sum float64
-	for i := 0; i < 10_000_000; i++ {
-		sum += rand.Float64()
-	}
-
-	anotherExpensiveFunc()
-}
-
-//go:noinline
-func anotherExpensiveFunc() {
-	var sum int
-	for i := 0; i < 1_000_000; i++ {
-		sum += rand.Intn(10)
+	for i := 0; i < 1e8; i++ { // 100 million iterations
+		sum += math.Sqrt(float64(i))
 	}
 }
